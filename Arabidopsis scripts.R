@@ -87,7 +87,7 @@ y = factor(rep(c("Control+P", "Control-P"), each  = 5),
            levels = c("a", "b"))
 
 
-#YOU ALSO HAVE MORE VARIABLES TO CONSIDER (STERILISED/PHOSPHORUS)
+#(STERILISED/PHOSPHORUS)
 
 ex3 <- expression("Mean rosette area (mm"^2*")")
 
@@ -104,7 +104,6 @@ sumDat <- dfps %>%
     sdA= sd(AREA_MM, na.rm=TRUE),
     seA = (sdA/(sqrt(7))))
 
-?facet_wrap
 
 MCB <- ggplot(ABD, aes(x = Day, y = AREA_MM,
                        col = Treatment))+
@@ -113,9 +112,6 @@ MCB <- ggplot(ABD, aes(x = Day, y = AREA_MM,
                          facet_wrap(vars(Treatment))
 
 MCB + scale_colour_hue(l = 50, h = c(0, 270))
-
-?slice
-?facet_grid
 
 df <- filter(ABD, BS == "2")
 dfc <- filter(ABD, BS == "1")
@@ -140,7 +136,8 @@ MCP <- ggplot(dfp, aes(x = Day, y = AREA_MM,
   facet_wrap(vars(Treatment ~ BI))
 MCP + scale_colour_hue(l = 50, h = c(0, 270))+
   theme_bw()
-#11pm brainwave
+
+#11
 
 MCP <- ggplot(dfps, aes(x = Day, y = AREA_MM,
                        col = Treatment))+
@@ -269,13 +266,6 @@ MCP3 + scale_colour_hue(l = 50, h = c(0, 270))+ theme_bw()
 MCP3 + coord_cartesian(ylim = c(-375, 2250), expand = FALSE)+
   theme_bw()
 
-?legend
-
-?fill
-?ylim
-
-#worth a shot?
-
 dsa <- glm(ROUNDNESS ~ BS+Treatment, 
            data = dfps, family = "binomial")
 
@@ -315,9 +305,7 @@ ggplot(add_those, aes(x = Day, y = meanR, col = Treatment, na.rm=TRUE))+
        fill = "Treatment")+
   theme_classic()
 
-?geom_smooth()
 
-## no idea
 install.packages("hexbin")
 library(hexbin)
 ggplot(data.frame(x = rnorm(10000), y = rnorm(10000)), aes(x = x, y = y)) +

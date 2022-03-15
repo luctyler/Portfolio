@@ -1,0 +1,1386 @@
+library(dplyr)
+library(ggplot2)
+library(ggfortify)
+
+tools::checkMD5sums("dplyr")
+
+#Curves for Arabidopsis
+
+ABD <- read.csv("./R/ABD.csv")
+
+CP <- filter(ABD, Treatment == "Control+P")
+CN <- filter(ABD, Treatment == "Control-P")
+KSP <- filter(ABD, Treatment == "KB(S)+P")
+KSN <- filter(ABD, Treatment == "KB(S)-P")
+KP <- filter(ABD, Treatment == "KB+P")
+KN <- filter(ABD, Treatment == "KB-P")
+URSP <- filter(ABD, Treatment == "UR(S)+P")
+URSN <- filter(ABD, Treatment == "UR(S)-P")
+URP <- filter(ABD, Treatment == "UR+P")
+URN <- filter(ABD, Treatment == "UR-P")
+UMSP <- filter(ABD, Treatment == "UM(S)+P")
+UMSN <- filter(ABD, Treatment == "UM(S)-P")
+UMP <- filter(ABD, Treatment == "UM+P")
+UMN <- filter(ABD, Treatment == "UM-P")
+
+df <- filter(ABD, BS == "2")
+dfc <- filter(ABD, BS == "1")
+dfp <- filter(ABD, Phos == "1")
+dfps <- filter(dfp, BS == "2")
+
+#Area
+
+ex3 <- expression("Mean rosette area (mm"^2*")")
+
+MCP <- ggplot(dfps, aes(x = Day, y = AREA_MM,col = Treatment))+
+  ylab(ex3)+
+  geom_smooth(data = UMSP, method = "loess", linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "light blue", alpha = 0.3, show.legend = FALSE)+
+  geom_smooth(data = KSP, method = "loess", linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "green", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = URSP, method = "loess", linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "purple", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, method = "loess", linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "red", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, method = "loess", linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = NA, alpha = 0.1)
+
+MCP + scale_colour_hue(l = 50, h = c(0, 270))+ theme_bw()
+MCP + coord_cartesian(ylim = c(-100, 1000), expand = FALSE)+
+  theme_bw()
+
+MCP1 <- ggplot(dfps, aes(x = Day, y = AREA_MM,col = Treatment))+
+  ylab(ex3)+
+  geom_smooth(data = UMP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "light blue", alpha = 0.3, show.legend = FALSE)+
+  geom_smooth(data = KP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "green", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = URP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "purple", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "red", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = NA, alpha = 0.1)
+MCP1 + scale_colour_hue(l = 50, h = c(0, 270))+ theme_bw()
+MCP1 + coord_cartesian(ylim = c(-100, 1000), expand = FALSE)+
+  theme_bw()
+
+
+MCP2 <- ggplot(dfps, aes(x = Day, y = AREA_MM,col = Treatment, show.legend = FALSE))+
+  ylab(ex3)+
+  geom_smooth(data = UMSN, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "light blue", alpha = 0.3, show.legend = FALSE)+
+  geom_smooth(data = KSN, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "green", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = URSN, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "purple", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "red", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = NA, alpha = 0.1)
+MCP2 + scale_colour_hue(l = 50, h = c(0, 270))+ theme_bw() + show.legend = FALSE
+MCP2 + coord_cartesian(ylim = c(-375, 2250), expand = FALSE)+
+  theme_bw()
+
+MCP3 <- ggplot(dfps, aes(x = Day, y = AREA_MM,col = Treatment))+
+  ylab(ex3)+
+  geom_smooth(data = UMN, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "light blue", alpha = 0.3, show.legend = FALSE)+
+  geom_smooth(data = KN, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "green", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = URN, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "purple", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "red", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = NA, alpha = 0.1)
+MCP3 + scale_colour_hue(l = 50, h = c(0, 270))+ theme_bw()
+MCP3 + coord_cartesian(ylim = c(-375, 2250), expand = FALSE)+
+  theme_bw()
+
+# Perimeter
+
+MCP <- ggplot(dfps, aes(x = Day, y = PERIMETER_MM,col = Treatment))+
+  ylab("Mean rosette perimeter (mm)")+
+  geom_smooth(data = UMSP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "light blue", alpha = 0.3, show.legend = FALSE)+
+  geom_smooth(data = KSP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "green", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = URSP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "purple", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "red", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = NA, alpha = 0.1)
+
+MCP + scale_colour_hue(l = 50, h = c(0, 270))+ theme_bw()
+MCP + coord_cartesian(ylim = c(-100, 500), expand = FALSE)+
+  theme_bw()
+
+MCP1 <- ggplot(dfps, aes(x = Day, y = PERIMETER_MM,col = Treatment))+
+  ylab("Mean rosette perimeter (mm)")+
+  geom_smooth(data = UMP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "light blue", alpha = 0.3, show.legend = FALSE)+
+  geom_smooth(data = KP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "green", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = URP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "purple", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "red", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = NA, alpha = 0.1)
+MCP1 + scale_colour_hue(l = 50, h = c(0, 270))+ theme_bw()
+MCP1 + coord_cartesian(ylim = c(-100, 500), expand = FALSE)+
+  theme_bw()
+
+
+MCP2 <- ggplot(dfps, aes(x = Day, y = PERIMETER_MM,col = Treatment))+
+  ylab("Mean rosette perimeter (mm)")+
+  geom_smooth(data = UMSN, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "light blue", alpha = 0.3, show.legend = FALSE)+
+  geom_smooth(data = KSN, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "green", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = URSN, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "purple", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "red", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = NA, alpha = 0.1)
+MCP2 + scale_colour_hue(l = 50, h = c(0, 270))+ theme_bw()
+MCP2 + coord_cartesian(ylim = c(-50, 850), expand = FALSE)+
+  theme_bw()
+
+MCP3 <- ggplot(dfps, aes(x = Day, y = PERIMETER_MM,col = Treatment))+
+  ylab("Mean rosette perimeter (mm)")+
+  geom_smooth(data = UMN, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "light blue", alpha = 0.3, show.legend = FALSE)+
+  geom_smooth(data = KN, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "green", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = URN, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "purple", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "red", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = NA, alpha = 0.1)
+MCP3 + scale_colour_hue(l = 50, h = c(0, 270))+ theme_bw()
+MCP3 + coord_cartesian(ylim = c(-50, 850), expand = FALSE)+
+  theme_bw()
+
+#Roundness 
+
+MCP <- ggplot(dfps, aes(x = Day, y = ROUNDNESS,col = Treatment))+
+  ylab("Mean rosette roundness ")+
+  geom_smooth(data = UMSP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "light blue", alpha = 0.3, show.legend = FALSE)+
+  geom_smooth(data = KSP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "green", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = URSP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "purple", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "red", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = NA, alpha = 0.1)
+
+MCP + scale_colour_hue(l = 50, h = c(0, 270))+ theme_bw()
+MCP + coord_cartesian(ylim = c(-0.05, 0.5), expand = FALSE)+
+  theme_bw()
+
+MCP1 <- ggplot(dfps, aes(x = Day, y = ROUNDNESS,col = Treatment))+
+  ylab("Mean rosette roundness ")+
+  geom_smooth(data = UMP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "light blue", alpha = 0.3, show.legend = FALSE)+
+  geom_smooth(data = KP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "green", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = URP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "purple", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "red", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = NA, alpha = 0.1)
+MCP1 + scale_colour_hue(l = 50, h = c(0, 270))+ theme_bw()
+MCP1 + coord_cartesian(ylim = c(-0.05, 0.5), expand = FALSE)+
+  theme_bw()
+
+
+MCP2 <- ggplot(dfps, aes(x = Day, y = ROUNDNESS,col = Treatment))+
+  ylab("Mean rosette roundness ")+
+  geom_smooth(data = UMSN, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "light blue", alpha = 0.3, show.legend = FALSE)+
+  geom_smooth(data = KSN, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "green", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = URSN, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "purple", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "red", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = NA, alpha = 0.1)
+MCP2 + scale_colour_hue(l = 50, h = c(0, 270))+ theme_bw()
+MCP2 + coord_cartesian(ylim = c(-0.05, 0.35), expand = FALSE)+
+  theme_bw()
+
+MCP3 <- ggplot(dfps, aes(x = Day, y = ROUNDNESS,col = Treatment))+
+  ylab("Mean rosette roundness ")+
+  geom_smooth(data = UMN, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "light blue", alpha = 0.3, show.legend = FALSE)+
+  geom_smooth(data = KN, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "green", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = URN, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "purple", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "red", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = NA, alpha = 0.1)
+MCP3 + scale_colour_hue(l = 50, h = c(0, 270))+ theme_bw()
+MCP3 + coord_cartesian(ylim = c(-0.05, 0.35), expand = FALSE)+
+  theme_bw()
+
+#Roundness2 
+
+MCP <- ggplot(dfps, aes(x = Day, y = ROUNDNESS2,col = Treatment))+
+  ylab("Mean rosette roundness2 ")+
+  geom_smooth(data = UMSP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "light blue", alpha = 0.3, show.legend = FALSE)+
+  geom_smooth(data = KSP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "green", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = URSP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "purple", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "red", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = NA, alpha = 0.1)
+
+MCP + scale_colour_hue(l = 50, h = c(0, 270))+ theme_bw()
+MCP + coord_cartesian(ylim = c(0.6, 1), expand = FALSE)+
+  theme_bw()
+
+MCP1 <- ggplot(dfps, aes(x = Day, y = ROUNDNESS2,col = Treatment))+
+  ylab("Mean rosette roundness2 ")+
+  geom_smooth(data = UMP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "light blue", alpha = 0.3, show.legend = FALSE)+
+  geom_smooth(data = KP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "green", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = URP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "purple", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "red", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = NA, alpha = 0.1)
+MCP1 + scale_colour_hue(l = 50, h = c(0, 270))+ theme_bw()
+MCP1 + coord_cartesian(ylim = c(0.6, 1), expand = FALSE)+
+  theme_bw()
+
+
+MCP2 <- ggplot(dfps, aes(x = Day, y = ROUNDNESS2,col = Treatment))+
+  ylab("Mean rosette roundness2 ")+
+  geom_smooth(data = UMSN, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "light blue", alpha = 0.3, show.legend = FALSE)+
+  geom_smooth(data = KSN, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "green", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = URSN, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "purple", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "red", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = NA, alpha = 0.1)
+MCP2 + scale_colour_hue(l = 50, h = c(0, 270))+ theme_bw()
+MCP2 + coord_cartesian(ylim = c(0.5, 1), expand = FALSE)+
+  theme_bw()
+
+MCP3 <- ggplot(dfps, aes(x = Day, y = ROUNDNESS2,col = Treatment))+
+  ylab("Mean rosette roundness2 ")+
+  geom_smooth(data = UMN, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "light blue", alpha = 0.3, show.legend = FALSE)+
+  geom_smooth(data = KN, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "green", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = URN, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "purple", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "red", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = NA, alpha = 0.1)
+MCP3 + scale_colour_hue(l = 50, h = c(0, 270))+ theme_bw()
+MCP3 + coord_cartesian(ylim = c(0.5, 1), expand = FALSE)+
+  theme_bw()
+
+#Isotropy  
+
+MCP <- ggplot(dfps, aes(x = Day, y = ISOTROPY,col = Treatment))+
+  ylab("Mean rosette isotropy ")+
+  geom_smooth(data = UMSP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "light blue", alpha = 0.3, show.legend = FALSE)+
+  geom_smooth(data = KSP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "green", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = URSP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "purple", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "red", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = NA, alpha = 0.1)
+
+MCP + scale_colour_hue(l = 50, h = c(0, 270))+ theme_bw()
+MCP + coord_cartesian(ylim = c(0, 0.8), expand = FALSE)+
+  theme_bw()
+
+MCP1 <- ggplot(dfps, aes(x = Day, y = ISOTROPY,col = Treatment))+
+  ylab("Mean rosette isotropy ")+
+  geom_smooth(data = UMP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "light blue", alpha = 0.3, show.legend = FALSE)+
+  geom_smooth(data = KP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "green", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = URP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "purple", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "red", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = NA, alpha = 0.1)
+MCP1 + scale_colour_hue(l = 50, h = c(0, 270))+ theme_bw()
+MCP1 + coord_cartesian(ylim = c(0, 0.8), expand = FALSE)+
+  theme_bw()
+
+
+MCP2 <- ggplot(dfps, aes(x = Day, y = ISOTROPY,col = Treatment))+
+  ylab("Mean rosette isotropy ")+
+  geom_smooth(data = UMSN, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "light blue", alpha = 0.3, show.legend = FALSE)+
+  geom_smooth(data = KSN, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "green", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = URSN, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "purple", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "red", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = NA, alpha = 0.1)
+MCP2 + scale_colour_hue(l = 50, h = c(0, 270))+ theme_bw()
+MCP2 + coord_cartesian(ylim = c(0.2, 0.9), expand = FALSE)+
+  theme_bw()
+
+MCP3 <- ggplot(dfps, aes(x = Day, y = ISOTROPY,col = Treatment))+
+  ylab("Mean rosette isotropy ")+
+  geom_smooth(data = UMN, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "light blue", alpha = 0.3, show.legend = FALSE)+
+  geom_smooth(data = KN, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "green", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = URN, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "purple", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "red", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = NA, alpha = 0.1)
+MCP3 + scale_colour_hue(l = 50, h = c(0, 270))+ theme_bw()
+MCP3 + coord_cartesian(ylim = c(0.2, 0.9), expand = FALSE)+
+  theme_bw()
+
+
+#Compactness  
+
+MCP <- ggplot(dfps, aes(x = Day, y = COMPACTNESS,col = Treatment))+
+  ylab("Mean rosette compactness ")+
+  geom_smooth(data = UMSP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "light blue", alpha = 0.3, show.legend = FALSE)+
+  geom_smooth(data = KSP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "green", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = URSP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "purple", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "red", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = NA, alpha = 0.1)
+
+MCP + scale_colour_hue(l = 50, h = c(0, 270))+ theme_bw()
+MCP + coord_cartesian(ylim = c(0.05, 0.85), expand = FALSE)+
+  theme_bw()
+
+MCP1 <- ggplot(dfps, aes(x = Day, y = COMPACTNESS,col = Treatment))+
+  ylab("Mean rosette compactness ")+
+  geom_smooth(data = UMP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "light blue", alpha = 0.3, show.legend = FALSE)+
+  geom_smooth(data = KP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "green", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = URP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "purple", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "red", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = NA, alpha = 0.1)
+MCP1 + scale_colour_hue(l = 50, h = c(0, 270))+ theme_bw()
+MCP1 + coord_cartesian(ylim = c(0.05, 0.85), expand = FALSE)+
+  theme_bw()
+
+
+MCP2 <- ggplot(dfps, aes(x = Day, y = COMPACTNESS,col = Treatment))+
+  ylab("Mean rosette compactness ")+
+  geom_smooth(data = UMSN, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "light blue", alpha = 0.3, show.legend = FALSE)+
+  geom_smooth(data = KSN, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "green", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = URSN, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "purple", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "red", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = NA, alpha = 0.1)
+MCP2 + scale_colour_hue(l = 50, h = c(0, 270))+ theme_bw()
+MCP2 + coord_cartesian(ylim = c(0.05, 0.85), expand = FALSE)+
+  theme_bw()
+
+MCP3 <- ggplot(dfps, aes(x = Day, y = COMPACTNESS,col = Treatment))+
+  ylab("Mean rosette compactness ")+
+  geom_smooth(data = UMN, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "light blue", alpha = 0.3, show.legend = FALSE)+
+  geom_smooth(data = KN, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "green", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = URN, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "purple", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "red", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = NA, alpha = 0.1)
+MCP3 + scale_colour_hue(l = 50, h = c(0, 270))+ theme_bw()
+MCP3 + coord_cartesian(ylim = c(0.05, 0.85), expand = FALSE)+
+  theme_bw()
+
+#Eccentricity  
+
+MCP <- ggplot(dfps, aes(x = Day, y = ECCENTRICITY,col = Treatment))+
+  ylab("Mean rosette eccentricity ")+
+  geom_smooth(data = UMSP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "light blue", alpha = 0.3, show.legend = FALSE)+
+  geom_smooth(data = KSP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "green", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = URSP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "purple", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "red", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = NA, alpha = 0.1)
+
+MCP + scale_colour_hue(l = 50, h = c(0, 270))+ theme_bw()
+MCP + coord_cartesian(ylim = c(0, 1.5), expand = FALSE)+
+  theme_bw()
+
+MCP1 <- ggplot(dfps, aes(x = Day, y = ECCENTRICITY,col = Treatment))+
+  ylab("Mean rosette eccentricity ")+
+  geom_smooth(data = UMP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "light blue", alpha = 0.3, show.legend = FALSE)+
+  geom_smooth(data = KP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "green", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = URP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "purple", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "red", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = NA, alpha = 0.1)
+MCP1 + scale_colour_hue(l = 50, h = c(0, 270))+ theme_bw()
+MCP1 + coord_cartesian(ylim = c(0, 1.5), expand = FALSE)+
+  theme_bw()
+
+
+MCP2 <- ggplot(dfps, aes(x = Day, y = ECCENTRICITY,col = Treatment))+
+  ylab("Mean rosette eccentricity ")+
+  geom_smooth(data = UMSN, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "light blue", alpha = 0.3, show.legend = FALSE)+
+  geom_smooth(data = KSN, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "green", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = URSN, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "purple", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "red", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = NA, alpha = 0.1)
+MCP2 + scale_colour_hue(l = 50, h = c(0, 270))+ theme_bw()
+MCP2 + coord_cartesian(ylim = c(0, 1.5), expand = FALSE)+
+  theme_bw()
+
+MCP3 <- ggplot(dfps, aes(x = Day, y = ECCENTRICITY,col = Treatment))+
+  ylab("Mean rosette eccentricity ")+
+  geom_smooth(data = UMN, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "light blue", alpha = 0.3, show.legend = FALSE)+
+  geom_smooth(data = KN, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "green", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = URN, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "purple", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "red", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = NA, alpha = 0.1)
+MCP3 + scale_colour_hue(l = 50, h = c(0, 270))+ theme_bw()
+MCP3 + coord_cartesian(ylim = c(0, 1.5), expand = FALSE)+
+  theme_bw()
+
+#RMS  
+
+MCP <- ggplot(dfps, aes(x = Day, y = RMS,col = Treatment))+
+  ylab("Mean rosette rotational mass symmetry ")+
+  geom_smooth(data = UMSP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "light blue", alpha = 0.3, show.legend = FALSE)+
+  geom_smooth(data = KSP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "green", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = URSP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "purple", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "red", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = NA, alpha = 0.1)
+
+MCP + scale_colour_hue(l = 50, h = c(0, 270))+ theme_bw()
+MCP + coord_cartesian(ylim = c(0.4, 1), expand = FALSE)+
+  theme_bw()
+
+MCP1 <- ggplot(dfps, aes(x = Day, y = RMS,col = Treatment))+
+  ylab("Mean rosette rotational mass symmetry ")+
+  geom_smooth(data = UMP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "light blue", alpha = 0.3, show.legend = FALSE)+
+  geom_smooth(data = KP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "green", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = URP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "purple", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "red", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = NA, alpha = 0.1)
+MCP1 + scale_colour_hue(l = 50, h = c(0, 270))+ theme_bw()
+MCP1 + coord_cartesian(ylim = c(0.4, 1), expand = FALSE)+
+  theme_bw()
+
+
+MCP2 <- ggplot(dfps, aes(x = Day, y = RMS,col = Treatment))+
+  ylab("Mean rosette rotational mass symmetry ")+
+  geom_smooth(data = UMSN, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "light blue", alpha = 0.3, show.legend = FALSE)+
+  geom_smooth(data = KSN, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "green", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = URSN, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "purple", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "red", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = NA, alpha = 0.1)
+MCP2 + scale_colour_hue(l = 50, h = c(0, 270))+ theme_bw()
+MCP2 + coord_cartesian(ylim = c(0.4, 1), expand = FALSE)+
+  theme_bw()
+
+MCP3 <- ggplot(dfps, aes(x = Day, y = RMS,col = Treatment))+
+  ylab("Mean rosette rotational mass symmetry ")+
+  geom_smooth(data = UMN, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "light blue", alpha = 0.3, show.legend = FALSE)+
+  geom_smooth(data = KN, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "green", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = URN, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "purple", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "red", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = NA, alpha = 0.1)
+MCP3 + scale_colour_hue(l = 50, h = c(0, 270))+ theme_bw()
+MCP3 + coord_cartesian(ylim = c(0.4, 1), expand = FALSE)+
+  theme_bw()
+
+#SOL  
+
+MCP <- ggplot(dfps, aes(x = Day, y = SOL,col = Treatment))+
+  ylab("Mean rosette slenderness of leaves ")+
+  geom_smooth(data = UMSP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "light blue", alpha = 0.3, show.legend = FALSE)+
+  geom_smooth(data = KSP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "green", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = URSP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "purple", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "red", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = NA, alpha = 0.1)
+
+MCP + scale_colour_hue(l = 50, h = c(0, 270))+ theme_bw()
+MCP + coord_cartesian(ylim = c(-50, 275), expand = FALSE)+
+  theme_bw()
+
+MCP1 <- ggplot(dfps, aes(x = Day, y = SOL,col = Treatment))+
+  ylab("Mean rosette slenderness of leaves ")+
+  geom_smooth(data = UMP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "light blue", alpha = 0.3, show.legend = FALSE)+
+  geom_smooth(data = KP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "green", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = URP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "purple", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "red", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = NA, alpha = 0.1)
+MCP1 + scale_colour_hue(l = 50, h = c(0, 270))+ theme_bw()
+MCP1 + coord_cartesian(ylim = c(-50, 275), expand = FALSE)+
+  theme_bw()
+
+
+MCP2 <- ggplot(dfps, aes(x = Day, y = SOL,col = Treatment))+
+  ylab("Mean rosette slenderness of leaves ")+
+  geom_smooth(data = UMSN, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "light blue", alpha = 0.3, show.legend = FALSE)+
+  geom_smooth(data = KSN, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "green", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = URSN, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "purple", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "red", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = NA, alpha = 0.1)
+MCP2 + scale_colour_hue(l = 50, h = c(0, 270))+ theme_bw()
+MCP2 + coord_cartesian(ylim = c(-50, 450), expand = FALSE)+
+  theme_bw()
+
+MCP3 <- ggplot(dfps, aes(x = Day, y = SOL,col = Treatment))+
+  ylab("Mean rosette slenderness of leaves ")+
+  geom_smooth(data = UMN, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "light blue", alpha = 0.3, show.legend = FALSE)+
+  geom_smooth(data = KN, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "green", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = URN, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "purple", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = "red", alpha = 0.1, show.legend = FALSE)+
+  geom_smooth(data = CP, linetype="dashed", size = 0.75,
+              fullrange = FALSE, span = 0.3, method.args = list(degree=1),
+              fill = NA, alpha = 0.1)
+MCP3 + scale_colour_hue(l = 50, h = c(0, 270))+ theme_bw()
+MCP3 + coord_cartesian(ylim = c(-50, 450), expand = FALSE)+
+  theme_bw()
+
+#Statistics
+
+dfps
+# Do x and y come from the same distribution?
+Psu <- filter(ABD, Treatment == "Control+P")
+Pyr <- as.numeric(as.character(Psu$AREA_MM)) 
+Psu <- filter(ABD, Treatment == "UM+P")
+Pym <- as.numeric(as.character(Psu$AREA_MM)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UR+P")
+Pym <- as.numeric(as.character(Psu$AREA_MM)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "KB+P")
+Pym <- as.numeric(as.character(Psu$AREA_MM)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UR-P")
+Pym <- as.numeric(as.character(Psu$AREA_MM)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UM-P")
+Pym <- as.numeric(as.character(Psu$AREA_MM)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "KB-P")
+Pym <- as.numeric(as.character(Psu$AREA_MM)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UR(S)+P")
+Pym <- as.numeric(as.character(Psu$AREA_MM)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UM(S)+P")
+Pym <- as.numeric(as.character(Psu$AREA_MM)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "KB(S)+P")
+Pym <- as.numeric(as.character(Psu$AREA_MM)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UR(S)-P")
+Pym <- as.numeric(as.character(Psu$AREA_MM)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UM(S)-P")
+Pym <- as.numeric(as.character(Psu$AREA_MM)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "KB(S)-P")
+Pym <- as.numeric(as.character(Psu$AREA_MM)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "Control-P")
+Pym <- as.numeric(as.character(Psu$AREA_MM)) 
+
+ks.boot(Pyr, Pym)
+
+#Perimeter
+
+Psu <- filter(ABD, Treatment == "Control+P")
+Pyr <- as.numeric(as.character(Psu$PERIMETER_MM)) 
+Psu <- filter(ABD, Treatment == "UM+P")
+Pym <- as.numeric(as.character(Psu$PERIMETER_MM)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UR+P")
+Pym <- as.numeric(as.character(Psu$PERIMETER_MM)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "KB+P")
+Pym <- as.numeric(as.character(Psu$PERIMETER_MM)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UM-P")
+Pym <- as.numeric(as.character(Psu$PERIMETER_MM)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UR-P")
+Pym <- as.numeric(as.character(Psu$PERIMETER_MM)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "KB-P")
+Pym <- as.numeric(as.character(Psu$PERIMETER_MM)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UR(S)+P")
+Pym <- as.numeric(as.character(Psu$PERIMETER_MM)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UM(S)+P")
+Pym <- as.numeric(as.character(Psu$PERIMETER_MM)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "KB(S)+P")
+Pym <- as.numeric(as.character(Psu$PERIMETER_MM)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UR(S)-P")
+Pym <- as.numeric(as.character(Psu$PERIMETER_MM)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UM(S)-P")
+Pym <- as.numeric(as.character(Psu$PERIMETER_MM)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "KB(S)-P")
+Pym <- as.numeric(as.character(Psu$PERIMETER_MM)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "Control-P")
+Pym <- as.numeric(as.character(Psu$PERIMETER_MM)) 
+
+ks.boot(Pyr, Pym)
+
+
+
+#Roundness
+
+Psu <- filter(ABD, Treatment == "Control+P")
+Pyr <- as.numeric(as.character(Psu$ROUNDNESS)) 
+Psu <- filter(ABD, Treatment == "UM+P")
+Pym <- as.numeric(as.character(Psu$ROUNDNESS)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UR+P")
+Pym <- as.numeric(as.character(Psu$ROUNDNESS)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "KB+P")
+Pym <- as.numeric(as.character(Psu$ROUNDNESS)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UM-P")
+Pym <- as.numeric(as.character(Psu$ROUNDNESS)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UR-P")
+Pym <- as.numeric(as.character(Psu$ROUNDNESS)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "KB-P")
+Pym <- as.numeric(as.character(Psu$ROUNDNESS)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UR(S)+P")
+Pym <- as.numeric(as.character(Psu$ROUNDNESS)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UM(S)+P")
+Pym <- as.numeric(as.character(Psu$ROUNDNESS)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "KB(S)+P")
+Pym <- as.numeric(as.character(Psu$ROUNDNESS)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UR(S)-P")
+Pym <- as.numeric(as.character(Psu$ROUNDNESS)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UM(S)-P")
+Pym <- as.numeric(as.character(Psu$ROUNDNESS)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "KB(S)-P")
+Pym <- as.numeric(as.character(Psu$ROUNDNESS)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "Control-P")
+Pym <- as.numeric(as.character(Psu$ROUNDNESS)) 
+
+ks.boot(Pyr, Pym)
+
+
+
+#Roundness2
+
+Psu <- filter(ABD, Treatment == "Control+P")
+Pyr <- as.numeric(as.character(Psu$ROUNDNESS2)) 
+Psu <- filter(ABD, Treatment == "UM+P")
+Pym <- as.numeric(as.character(Psu$ROUNDNESS2)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UR+P")
+Pym <- as.numeric(as.character(Psu$ROUNDNESS2)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "KB+P")
+Pym <- as.numeric(as.character(Psu$ROUNDNESS2)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UM-P")
+Pym <- as.numeric(as.character(Psu$ROUNDNESS2)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UR-P")
+Pym <- as.numeric(as.character(Psu$ROUNDNESS2)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "KB-P")
+Pym <- as.numeric(as.character(Psu$ROUNDNESS2)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UR(S)+P")
+Pym <- as.numeric(as.character(Psu$ROUNDNESS2)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UM(S)+P")
+Pym <- as.numeric(as.character(Psu$ROUNDNESS2)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "KB(S)+P")
+Pym <- as.numeric(as.character(Psu$ROUNDNESS2)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UR(S)-P")
+Pym <- as.numeric(as.character(Psu$ROUNDNESS2)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UM(S)-P")
+Pym <- as.numeric(as.character(Psu$ROUNDNESS2)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "KB(S)-P")
+Pym <- as.numeric(as.character(Psu$ROUNDNESS2)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "Control-P")
+Pym <- as.numeric(as.character(Psu$ROUNDNESS2)) 
+
+ks.boot(Pyr, Pym)
+
+
+#Roundness2
+
+Psu <- filter(ABD, Treatment == "Control+P")
+Pyr <- as.numeric(as.character(Psu$ISOTROPY)) 
+Psu <- filter(ABD, Treatment == "UM+P")
+Pym <- as.numeric(as.character(Psu$ISOTROPY)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UR+P")
+Pym <- as.numeric(as.character(Psu$ISOTROPY)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "KB+P")
+Pym <- as.numeric(as.character(Psu$ISOTROPY)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UM-P")
+Pym <- as.numeric(as.character(Psu$ISOTROPY)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UR-P")
+Pym <- as.numeric(as.character(Psu$ISOTROPY)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "KB-P")
+Pym <- as.numeric(as.character(Psu$ISOTROPY)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UR(S)+P")
+Pym <- as.numeric(as.character(Psu$ISOTROPY)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UM(S)+P")
+Pym <- as.numeric(as.character(Psu$ISOTROPY)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "KB(S)+P")
+Pym <- as.numeric(as.character(Psu$ISOTROPY)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UR(S)-P")
+Pym <- as.numeric(as.character(Psu$ISOTROPY)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UM(S)-P")
+Pym <- as.numeric(as.character(Psu$ISOTROPY)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "KB(S)-P")
+Pym <- as.numeric(as.character(Psu$ISOTROPY)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "Control-P")
+Pym <- as.numeric(as.character(Psu$ISOTROPY)) 
+
+ks.boot(Pyr, Pym)
+
+
+#ECCENTRICITY
+
+Psu <- filter(ABD, Treatment == "Control+P")
+Pyr <- as.numeric(as.character(Psu$ECCENTRICITY)) 
+Psu <- filter(ABD, Treatment == "UM+P")
+Pym <- as.numeric(as.character(Psu$ECCENTRICITY)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UR+P")
+Pym <- as.numeric(as.character(Psu$ECCENTRICITY)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "KB+P")
+Pym <- as.numeric(as.character(Psu$ECCENTRICITY)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UM-P")
+Pym <- as.numeric(as.character(Psu$ECCENTRICITY)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UR-P")
+Pym <- as.numeric(as.character(Psu$ECCENTRICITY)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "KB-P")
+Pym <- as.numeric(as.character(Psu$ECCENTRICITY)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UR(S)+P")
+Pym <- as.numeric(as.character(Psu$ECCENTRICITY)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UM(S)+P")
+Pym <- as.numeric(as.character(Psu$ECCENTRICITY)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "KB(S)+P")
+Pym <- as.numeric(as.character(Psu$ECCENTRICITY)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UR(S)-P")
+Pym <- as.numeric(as.character(Psu$ECCENTRICITY)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UM(S)-P")
+Pym <- as.numeric(as.character(Psu$ECCENTRICITY)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "KB(S)-P")
+Pym <- as.numeric(as.character(Psu$ECCENTRICITY)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "Control-P")
+Pym <- as.numeric(as.character(Psu$ECCENTRICITY)) 
+
+ks.boot(Pyr, Pym)
+
+
+#RMS
+
+Psu <- filter(ABD, Treatment == "Control+P")
+Pyr <- as.numeric(as.character(Psu$RMS)) 
+Psu <- filter(ABD, Treatment == "UM+P")
+Pym <- as.numeric(as.character(Psu$RMS)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UR+P")
+Pym <- as.numeric(as.character(Psu$RMS)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "KB+P")
+Pym <- as.numeric(as.character(Psu$RMS)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UM-P")
+Pym <- as.numeric(as.character(Psu$RMS)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UR-P")
+Pym <- as.numeric(as.character(Psu$RMS)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "KB-P")
+Pym <- as.numeric(as.character(Psu$RMS)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UR(S)+P")
+Pym <- as.numeric(as.character(Psu$RMS)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UM(S)+P")
+Pym <- as.numeric(as.character(Psu$RMS)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "KB(S)+P")
+Pym <- as.numeric(as.character(Psu$RMS)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UR(S)-P")
+Pym <- as.numeric(as.character(Psu$RMS)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UM(S)-P")
+Pym <- as.numeric(as.character(Psu$RMS)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "KB(S)-P")
+Pym <- as.numeric(as.character(Psu$RMS)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "Control-P")
+Pym <- as.numeric(as.character(Psu$RMS)) 
+
+ks.boot(Pyr, Pym)
+
+
+#SOL
+
+Psu <- filter(ABD, Treatment == "Control+P")
+Pyr <- as.numeric(as.character(Psu$SOL)) 
+Psu <- filter(ABD, Treatment == "UM+P")
+Pym <- as.numeric(as.character(Psu$SOL)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UR+P")
+Pym <- as.numeric(as.character(Psu$SOL)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "KB+P")
+Pym <- as.numeric(as.character(Psu$SOL)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UM-P")
+Pym <- as.numeric(as.character(Psu$SOL)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UR-P")
+Pym <- as.numeric(as.character(Psu$SOL)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "KB-P")
+Pym <- as.numeric(as.character(Psu$SOL)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UR(S)+P")
+Pym <- as.numeric(as.character(Psu$SOL)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UM(S)+P")
+Pym <- as.numeric(as.character(Psu$SOL)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "KB(S)+P")
+Pym <- as.numeric(as.character(Psu$SOL)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UR(S)-P")
+Pym <- as.numeric(as.character(Psu$SOL)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "UM(S)-P")
+Pym <- as.numeric(as.character(Psu$SOL)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "KB(S)-P")
+Pym <- as.numeric(as.character(Psu$SOL)) 
+
+ks.boot(Pyr, Pym)
+
+Psu <- filter(ABD, Treatment == "Control-P")
+Pym <- as.numeric(as.character(Psu$SOL)) 
+
+ks.boot(Pyr, Pym)

@@ -26,7 +26,7 @@ ggbiplot(Fridd.pca,ellipse=TRUE, choices=c(3,4),
   theme_minimal()+
   theme(legend.position = "bottom")
 
-#Tim's stuff
+#EMF
 
 species <- read.csv("./R/samples.csv")
 
@@ -40,9 +40,7 @@ treat=c(rep("CE", 4),rep("CNE", 4), rep("CS", 4), rep("BE", 3),rep("BNE", 3), re
 SP + ordihull(sp_NMDS,groups=treat,draw="polygon", col=1:6,
               label=TRUE, cex=0.5, border = FALSE, bg = FALSE)
 
-##All done?
 
-#another attempt
 
 tim <- read.csv("./R/tim.csv")
 
@@ -60,8 +58,6 @@ new + ordihull(tim3_NMDS,groups=treat,draw="polygon", col=1:6,
               label=TRUE, cex=0.5, border = TRUE, bg = FALSE)
 
 
-
-?metaMDS
 
 ordihull(sp_NMDS,groups=treat,draw="polygon",col=1:6,
          label=TRUE, offset = 0.1, border = TRUE, bg = FALSE)

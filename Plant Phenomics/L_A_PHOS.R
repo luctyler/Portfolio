@@ -51,9 +51,9 @@ tp + stat_compare_means(method = "t.test")
 
 
 
-#ylab = expression("P Concentration in dried 0.5 g soil extract µg PO4"^2*"P mL^-1")+  
+#ylab = expression("P Concentration in dried 0.5 g soil extract Âµg PO4"^2*"P mL^-1")+  
 
-ex <- expression("P concentration in dried 1 g leaf and root biomass (µg PO"[4]^"3-" *" P ml"^-1*")")
+ex <- expression("P concentration in dried 1 g leaf and root biomass (Âµg PO"[4]^"3-" *" P ml"^-1*")")
 
 gnoib <- lm(Concentration ~ Treatment, data = MP)
 

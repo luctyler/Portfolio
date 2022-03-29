@@ -24,9 +24,9 @@ BP1 <- ggplot(MP, aes(x = Treatment, y = Concentration,
 BP1 + theme(legend.position="none")+ 
   scale_fill_brewer(palette="Set3")
 
-#ylab = expression("P Concentration in dried 0.5 g soil extract µg PO4"^2*"P mL^-1")+  
+#ylab = expression("P Concentration in dried 0.5 g soil extract Âµg PO4"^2*"P mL^-1")+  
 
-ex <- expression("P concentration in dried 0.5 g soil extract (µg PO"[4]^-1 *"P mL"^-1*")")
+ex <- expression("P concentration in dried 0.5 g soil extract (Âµg PO"[4]^-1 *"P mL"^-1*")")
 
 gnoib <- lm(Concentration ~ Treatment, data = MP)
 

@@ -25,9 +25,9 @@ BPM + stat_compare_means(label = "p.signif", method = "t.test", hide.ns = TRUE,
   scale_fill_brewer(palette="Paired")
 
 
-#ylab = expression("P Concentration in dried 0.5 g soil extract µg PO4"^2*"P mL^-1")+  
+#ylab = expression("P Concentration in dried 0.5 g soil extract Âµg PO4"^2*"P mL^-1")+  
 
-ex <- expression("P concentration in dried 1 g soil extract (µg PO"[4]^"3-" *" P ml"^-1*")")
+ex <- expression("P concentration in dried 1 g soil extract (Âµg PO"[4]^"3-" *" P ml"^-1*")")
 
 gnoib <- lm(Concentration ~ Treatment, data = MP)
 
